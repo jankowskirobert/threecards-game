@@ -14,11 +14,14 @@ public class CardsTest {
 
     @Test
     public void shuffle() {
+        //given
         List<Move> moves = getMoves();
         Set<Card> cardSet = getCards();
         Cards cards = new Cards(cardSet);
-        cards.shuffle(moves);
-        Assert.assertTrue(cards.checkWinning(new Position(1)));
+        //when
+        Set<Card> out = cards.shuffle(moves);
+        //then
+        Assert.assertTrue(out.stream().filter(x -> x.getPosition().equals(new Position(2))).findFirst().get().getCardType().equals(CardType.WINNING));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -38,8 +41,8 @@ public class CardsTest {
 
     private Set<Card> getCards() {
         Set<Card> cardSet = new HashSet<>();
-        cardSet.add(new Card(new Position(1), CardType.LOOSING));
-        cardSet.add(new Card(new Position(2), CardType.WINNING));
+        cardSet.add(new Card(new Position(1), CardType.WINNING));
+        cardSet.add(new Card(new Position(2), CardType.LOOSING));
         cardSet.add(new Card(new Position(3), CardType.LOOSING));
         return cardSet;
     }

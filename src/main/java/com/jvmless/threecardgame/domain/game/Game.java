@@ -41,11 +41,11 @@ public class Game {
 
 
 
-    private void play(PlayerId host, Cards cards) {
+    private void play(PlayerId host, Set<Card> cards) {
         if(host != null && host.equals(this.host) && players.size() > 0) {
             gameStatus = GameStatus.HOST_SHUFFLE;
             start = LocalDateTime.now();
-            this.cards = cards;
+            this.cards = new Cards(cards);
         }
     }
 
@@ -54,5 +54,18 @@ public class Game {
             moves.add(new Move(current, destination));
         }
     }
+
+    public boolean checkWinning(Position position) {
+        if(this.gameStatus.equals(GameStatus.PLAYER_GUESTING)) {
+            Card c = cards.shuffle(moves).stream().filter(x -> x.getPosition().equals(position)).findFirst().orElseThrow(() -> new IllegalArgumentException("Position not find!"));
+            return c.getCardType().equals(CardType.WINNING);
+        } else {
+            throw new IllegalStateException("Cannot check winning card now!");
+        }
+    }
+//
+//    public Set<Card> getCards() {
+//        return cards.
+//    }
 
 }
