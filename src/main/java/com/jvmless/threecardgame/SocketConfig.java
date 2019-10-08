@@ -1,9 +1,18 @@
 package com.jvmless.threecardgame;
 
+import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
+import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
+import com.jvmless.threecardgame.api.StartGameListener;
+import com.jvmless.threecardgame.domain.game.GamesRepository;
+import com.jvmless.threecardgame.domain.game.InMemoryGameRepository;
+import com.jvmless.threecardgame.domain.player.InMemoryPlayerRepository;
+import com.jvmless.threecardgame.domain.player.PlayerRepository;
+import com.jvmless.threecardgame.handlers.StartGameCommand;
+import com.jvmless.threecardgame.handlers.StartGameCommandHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +25,27 @@ public class SocketConfig {
 
 
     @Bean
-    public SocketIOServer webSocketServer() {
+    public GamesRepository gamesRepository() {
+        return new InMemoryGameRepository();
+    }
+
+    @Bean
+    public PlayerRepository playerRepository() {
+        return new InMemoryPlayerRepository();
+    }
+
+    @Bean
+    public StartGameCommandHandler startGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository) {
+        return new StartGameCommandHandler(playerRepository, gamesRepository);
+    }
+
+    @Bean
+    public DataListener<StartGameCommand> startGameCommandDataListener(StartGameCommandHandler startGameCommandHandler) {
+        return new StartGameListener(startGameCommandHandler);
+    }
+
+    @Bean
+    public SocketIOServer webSocketServer(DataListener<StartGameCommand> startGameCommandDataListener) {
 
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setHostname("localhost");
@@ -32,10 +61,12 @@ public class SocketConfig {
             }
         });
 
+        server.addEventListener("startGame", StartGameCommand.class, startGameCommandDataListener);
+
         server.addDisconnectListener(new DisconnectListener() {
             @Override
             public void onDisconnect(SocketIOClient socketIOClient) {
-
+                log.info("Test2");
             }
         });
 
