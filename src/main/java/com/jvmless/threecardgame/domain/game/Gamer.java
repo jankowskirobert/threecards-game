@@ -8,6 +8,7 @@ import lombok.Getter;
 public class Gamer {
     private GamerId gamerId;
     private Integer checkCount = 1;
+    private GamerStatus gamerStatus;
 
     public Gamer(GamerId gamerId) {
         this.gamerId = gamerId;
@@ -19,4 +20,10 @@ public class Gamer {
         else
             throw new IllegalStateException("Gamer has 0 checks");
     }
+
+    public void deactivate() {
+        this.gamerStatus = GamerStatus.INACTIVE;
+        this.checkCount = 0;
+    }
+
 }

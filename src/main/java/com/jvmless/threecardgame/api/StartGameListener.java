@@ -18,7 +18,9 @@ public class StartGameListener implements DataListener<StartGameCommand> {
 
     @Override
     public void onData(SocketIOClient socketIOClient, StartGameCommand startGameCommand, AckRequest ackRequest) throws Exception {
+
         log.info("start! {}", startGameCommand);
         log.info("start2! {}", socketIOClient.getSessionId());
+        startGameCommandHandler.handle(startGameCommand);
     }
 }

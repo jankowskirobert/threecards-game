@@ -12,6 +12,11 @@ public class InMemoryPlayerRepository implements PlayerRepository {
     }
 
     @Override
+    public long countAll() {
+        return repo.size();
+    }
+
+    @Override
     public Player find(PlayerId playerId) {
         return repo.entrySet().stream().map(x -> x.getValue()).filter(y -> y.getPlayerId().equals(playerId)).findFirst().orElse(null);
     }

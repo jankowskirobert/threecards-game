@@ -86,6 +86,16 @@ public class Game {
 
     }
 
+    public Gamer getGamer(GamerId gamerId) {
+        return players.stream().filter(x -> x.getGamerId().equals(gamerId)).findFirst().orElse(null);
+    }
+
+    public void leaveMatch(GamerId gamerId) {
+        Gamer gamer = getGamer(gamerId);
+        if (gamer != null)
+           gamer.deactivate();
+    }
+
     public boolean hasTimeout() {
         return false;
     }

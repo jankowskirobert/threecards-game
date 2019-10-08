@@ -6,6 +6,8 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
+import com.jvmless.threecardgame.api.ConnectToServerListener;
+import com.jvmless.threecardgame.api.DisconnectFromServerListener;
 import com.jvmless.threecardgame.api.StartGameListener;
 import com.jvmless.threecardgame.domain.game.GamesRepository;
 import com.jvmless.threecardgame.domain.game.InMemoryGameRepository;
@@ -45,7 +47,17 @@ public class SocketConfig {
     }
 
     @Bean
-    public SocketIOServer webSocketServer(DataListener<StartGameCommand> startGameCommandDataListener) {
+    public DisconnectListener disconnectListener(GamesRepository gamesRepository, PlayerRepository playerRepository) {
+        return new DisconnectFromServerListener(playerRepository, gamesRepository);
+    }
+
+    @Bean
+    public ConnectListener connectListener(PlayerRepository playerRepository) {
+        return new ConnectToServerListener(playerRepository);
+    }
+
+    @Bean
+    public SocketIOServer webSocketServer(DataListener<StartGameCommand> startGameCommandDataListener, DisconnectListener disconnectListener, ConnectListener connectListener) {
 
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setHostname("localhost");
@@ -53,22 +65,11 @@ public class SocketConfig {
 
         final SocketIOServer server = new SocketIOServer(config);
 
-        server.addConnectListener(new ConnectListener() {
-            @Override
-            public void onConnect(SocketIOClient client) {
-                log.info("TEST");
-
-            }
-        });
+        server.addConnectListener(connectListener);
 
         server.addEventListener("startGame", StartGameCommand.class, startGameCommandDataListener);
 
-        server.addDisconnectListener(new DisconnectListener() {
-            @Override
-            public void onDisconnect(SocketIOClient socketIOClient) {
-                log.info("Test2");
-            }
-        });
+        server.addDisconnectListener(disconnectListener);
 
         return server;
 
