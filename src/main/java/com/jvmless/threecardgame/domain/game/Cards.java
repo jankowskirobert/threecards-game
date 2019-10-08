@@ -15,7 +15,7 @@ public class Cards {
             else
                 throw new IllegalArgumentException("Missing winning card!");
         else
-            throw new IllegalArgumentException("Not enought cards!");
+            throw new IllegalArgumentException("Not enough cards!");
     }
 
     public void shuffle(List<Move> moves) {
@@ -23,10 +23,10 @@ public class Cards {
             for (Move move : moves) {
                 Card toSwap = cards.stream()
                         .filter(card -> card.getPosition().equals(move.getPrevious())).findFirst()
-                        .orElseThrow(() -> new IllegalArgumentException("THere is no card with given position"));
+                        .orElseThrow(() -> new IllegalArgumentException("There is no card with given position"));
                 Card toBecome = cards.stream()
                         .filter(card -> card.getPosition().equals(move.getCurrent())).findFirst()
-                        .orElseThrow(() -> new IllegalArgumentException("THere is no card with given position"));
+                        .orElseThrow(() -> new IllegalArgumentException("There is no card with given position"));
                 toSwap.setPosition(move.getCurrent());
                 toBecome.setPosition(move.getPrevious());
             }
