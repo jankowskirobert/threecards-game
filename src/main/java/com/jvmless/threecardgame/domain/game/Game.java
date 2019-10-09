@@ -4,6 +4,8 @@ import com.jvmless.threecardgame.domain.player.PlayerId;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,9 +18,9 @@ public class Game {
     private LocalDateTime end;
     private GameStatus gameStatus;
     private Host host;
-    private Set<Gamer> players;
-    private Integer availableMoves;
-    private List<Move> moves;
+    private Set<Gamer> players = new HashSet<>();
+    private Integer availableMoves = 10;
+    private List<Move> moves = new ArrayList<>();
     private Cards cards;
 
     public Game(GameId gameId, Host host, String roomName) {
@@ -32,7 +34,7 @@ public class Game {
         if (host != null && players.size() > 0 && availableMoves > 0) {
             gameStatus = GameStatus.PENDING;
         } else {
-            throw new IllegalStateException("Cannot start the game!");
+            throw new IllegalStateException(String.format("Cannot start the game! Game has %d players, %d available moves!", players.size(), availableMoves));
         }
     }
 
