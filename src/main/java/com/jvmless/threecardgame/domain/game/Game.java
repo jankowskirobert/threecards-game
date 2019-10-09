@@ -28,19 +28,20 @@ public class Game {
         this.roomName = roomName;
         this.host = host;
         this.created = LocalDateTime.now();
+        this.gameStatus = GameStatus.CREATED;
     }
 
     public void start() {
-        if (host != null && players.size() > 0 && availableMoves > 0) {
+        if (host != null && players.size() > 0 && availableMoves > 0 && isActive()) {
             gameStatus = GameStatus.PENDING;
         } else {
             throw new IllegalStateException(String.format("Cannot start the game! Game has %d players, %d available moves!", players.size(), availableMoves));
         }
     }
 
-    public void joinMatch(Gamer player) {
+    public void joinMatch(GamerId gamerId) {
         if (gameStatus.equals(GameStatus.PENDING)) {
-            players.add(player);
+            players.add(new Gamer(gamerId));
         } else {
             throw new IllegalStateException("Cannot joint the game!");
         }

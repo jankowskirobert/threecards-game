@@ -27,8 +27,7 @@ public class JoinGameCommandHandler {
                 GameId gameId = new GameId(joinGameCommand.getGameId());
                 Game game = gamesRepository.findByGameId(gameId);
                 if (game != null) {
-                    Gamer gamer = new Gamer(gamerId);
-                    game.joinMatch(gamer);
+                    game.joinMatch(gamerId);
                     gamesRepository.save(game);
                 }
             }
