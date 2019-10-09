@@ -44,7 +44,7 @@ public class Game {
         }
     }
 
-    public void play(PlayerId host, Set<Card> cards) {
+    public void play(HostId host, Set<Card> cards) {
         if (host != null && host.equals(this.host) && players.size() > 0) {
             gameStatus = GameStatus.HOST_SHUFFLE;
             start = LocalDateTime.now();
