@@ -8,7 +8,11 @@ import java.util.List;
 
 public class GameEngine {
 
-    GamesRepository gamesRepository;
+    private final GamesRepository gamesRepository;
+
+    public GameEngine(GamesRepository gamesRepository) {
+        this.gamesRepository = gamesRepository;
+    }
 
     @Scheduled(fixedDelay = 42)
     public void gameRunner() {

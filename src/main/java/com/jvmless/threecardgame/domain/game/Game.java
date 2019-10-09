@@ -52,9 +52,9 @@ public class Game {
         }
     }
 
-    public void move(Position current, Position destination, PlayerId playerId) {
-        if (gameStatus.equals(GameStatus.HOST_SHUFFLE) && playerId.equals(host) && moves.size() < availableMoves) {
-            moves.add(new Move(current, destination));
+    public void move(int current, int destination, HostId hostId) {
+        if (gameStatus.equals(GameStatus.HOST_SHUFFLE) && hostId.equals(host.getHostId()) && moves.size() < availableMoves) {
+            moves.add(new Move(new Position(current), new Position(destination)));
         }
     }
 
