@@ -3,9 +3,8 @@ package com.jvmless.threecardgame.domain.game;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -48,7 +47,7 @@ public class Game {
     }
 
     public void play(HostId hostId, Set<Card> cards) {
-        if (host != null && this.host.match(hostId) && players.size() > 0) {
+        if (host != null && this.isHost(hostId) && players.size() > 0) {
             gameStatus = GameStatus.HOST_SHUFFLE;
             start = LocalDateTime.now();
             this.cards = new Cards(cards);
@@ -58,7 +57,7 @@ public class Game {
     }
 
     public void move(int current, int destination, HostId hostId) {
-        if (isOnShuffleStage() && host != null && this.host.match(hostId)) {
+        if (isOnShuffleStage() && host != null && isHost(hostId)) {
             moves.add(current, destination);
         }
     }
@@ -109,7 +108,9 @@ public class Game {
         return this.cards.shuffle(this.moves.all());
     }
 
-    public void timeout() {
+    public void end() {
+        this.end = LocalDateTime.now();
+        this.gameStatus = GameStatus.END;
     }
 
     public boolean isHost(HostId hostId) {
@@ -128,10 +129,6 @@ public class Game {
         Gamer gamer = getGamer(gamerId);
         if (gamer != null)
             gamer.deactivate();
-    }
-
-    public boolean hasTimeout() {
-        return false;
     }
 
     public boolean isActive() {

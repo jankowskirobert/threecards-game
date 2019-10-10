@@ -2,10 +2,12 @@ package com.jvmless.threecardgame.engine;
 
 import com.jvmless.threecardgame.domain.game.Game;
 import com.jvmless.threecardgame.domain.game.GamesRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 
+@Slf4j
 public class GameEngine {
 
     private final GamesRepository gamesRepository;
@@ -19,8 +21,8 @@ public class GameEngine {
         List<Game> games = gamesRepository.findAllActive();
         games.parallelStream().forEach(
                 game -> {
-                    if(game.hasTimeout()) {
-                        game.timeout();
+                    if(game.hasResultsForAllPlayers() && game.isOnGuestingStage()) {
+                        game.end();
                     }
                 }
         );

@@ -14,7 +14,7 @@ public class Moves {
         moves.sort(moveComparable);
     }
 
-    public LocalDateTime lastMove() {
+    public LocalDateTime last() {
         Collections.sort(moves, moveComparable);
         return moves.stream().map(x -> x.getMoveDate()).findFirst().orElse(null);
     }
