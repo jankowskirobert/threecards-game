@@ -7,4 +7,8 @@ import lombok.Getter;
 @Getter
 public class Host {
     private HostId hostId;
+
+    public boolean match(HostId hostId) {
+        return hostId.equals(hostId);
+    }
 }
