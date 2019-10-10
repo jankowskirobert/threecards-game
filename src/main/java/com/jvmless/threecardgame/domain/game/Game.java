@@ -23,10 +23,10 @@ public class Game {
     private List<Move> moves = new ArrayList<>();
     private Cards cards;
 
-    public Game(GameId gameId, Host host, String roomName) {
+    public Game(GameId gameId, HostId host, String roomName) {
         this.gameId = gameId;
         this.roomName = roomName;
-        this.host = host;
+        this.host = new Host(host);
         this.created = LocalDateTime.now();
         this.gameStatus = GameStatus.CREATED;
     }
@@ -48,10 +48,12 @@ public class Game {
     }
 
     public void play(HostId host, Set<Card> cards) {
-        if (host != null && host.equals(this.host) && players.size() > 0) {
+        if (host != null && host.equals(this.host.getHostId()) && players.size() > 0) {
             gameStatus = GameStatus.HOST_SHUFFLE;
             start = LocalDateTime.now();
             this.cards = new Cards(cards);
+        } else {
+            throw new IllegalStateException("Not enough players to play!");
         }
     }
 
@@ -61,27 +63,39 @@ public class Game {
         }
     }
 
-    public void acceptShuffle(PlayerId playerId) {
-        if (playerId.equals(this.host)) {
+    public void acceptShuffle(HostId hostId) {
+        if (hostId.equals(this.host.getHostId())) {
             this.gameStatus = GameStatus.PLAYER_GUESTING;
         }
     }
 
     public boolean checkWinning(GamerId gamerId, Position position) {
-        if (this.gameStatus.equals(GameStatus.PLAYER_GUESTING) && hasGamer(gamerId)) {
+        if(!hasGamer(gamerId)) {
+            throw new IllegalArgumentException("Gamer has not joined this game!");
+        }
+
+        if (isOnGuestingStage()) {
             Gamer gamer = players.stream()
                     .filter(x -> x.getGamerId().equals(gamerId))
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Gamer not found!"));
             gamer.removeCheck();
-            Card c = cards.shuffle(moves).stream()
+            Card c = shuffleCard().stream()
                     .filter(x -> x.getPosition().equals(position))
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Position not find!"));
             return c.getCardType().equals(CardType.WINNING);
         } else {
-            throw new IllegalStateException("Cannot check winning card!");
+            throw new IllegalStateException(String.format("Cannot check winning card - currently game is on stage: %s!", getGameStatus()));
         }
+    }
+
+    public boolean isOnGuestingStage() {
+        return this.gameStatus.equals(GameStatus.PLAYER_GUESTING);
+    }
+
+    private Set<Card> shuffleCard() {
+        return this.cards.shuffle(this.moves);
     }
 
     public void timeout() {
@@ -89,7 +103,7 @@ public class Game {
 
     }
 
-    public Gamer getGamer(GamerId gamerId) {
+    private Gamer getGamer(GamerId gamerId) {
         return players.stream().filter(x -> x.getGamerId().equals(gamerId)).findFirst().orElse(null);
     }
 

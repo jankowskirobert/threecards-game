@@ -6,7 +6,6 @@ import com.jvmless.threecardgame.domain.game.HostId;
 import com.jvmless.threecardgame.domain.player.Player;
 import com.jvmless.threecardgame.domain.player.PlayerId;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
-import com.jvmless.threecardgame.domain.room.GuestId;
 
 import java.util.HashSet;
 

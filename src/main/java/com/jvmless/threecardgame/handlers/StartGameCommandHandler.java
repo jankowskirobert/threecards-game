@@ -23,10 +23,9 @@ public class StartGameCommandHandler {
         Player player = playerRepository.find(playerId);
         if (player != null) {
             HostId hostId = new HostId(command.getHostId());
-            Host host = new Host(hostId);
             Game activeOldGame = gamesRepository.findActiveGamesByHostId(hostId);
             if (activeOldGame == null) {
-                Game newGame = new Game(gameId, host, command.getRoomName());
+                Game newGame = new Game(gameId, hostId, command.getRoomName());
                 newGame.start();
                 gamesRepository.save(newGame);
             } else {

@@ -12,7 +12,7 @@ public class Position {
         if(place <= MAX_POSITION && place > 0) {
             this.place = place;
         } else {
-            throw new IllegalArgumentException("Illegal position number!");
+            throw new IllegalArgumentException(String.format("Illegal position number = %d (min: 1 | max: %d)!", place, MAX_POSITION));
         }
     }
 }

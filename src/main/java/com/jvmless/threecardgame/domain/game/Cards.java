@@ -17,7 +17,7 @@ class Cards {
             if(getCountOfType(cards, CardType.WINNING) == WINNING && getCountOfType(cards, CardType.LOOSING) == LOOSING)
                 this.cards = Collections.unmodifiableSet(cards);
             else
-                throw new IllegalArgumentException("Missing winning card!");
+                throw new IllegalArgumentException("Missing winning or loosing card!");
         else
             throw new IllegalArgumentException("Not enough cards!");
     }

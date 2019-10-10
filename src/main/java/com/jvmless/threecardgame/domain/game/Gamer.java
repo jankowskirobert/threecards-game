@@ -9,6 +9,7 @@ public class Gamer {
     private GamerId gamerId;
     private Integer checkCount = 1;
     private GamerStatus gamerStatus;
+    private Decision decision;
 
     public Gamer(GamerId gamerId) {
         this.gamerId = gamerId;
