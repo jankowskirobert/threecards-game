@@ -40,7 +40,7 @@ public class GameTest {
         cards.add(new Card(new Position(3), CardType.WINNING));
         game.play(hostId, cards);
         game.acceptShuffle(hostId);
-        game.checkWinning(gamerId, new Position(2));
+        game.check(gamerId, new Position(2));
         Assert.assertTrue(game.hasResultsForAllPlayers());
     }
 

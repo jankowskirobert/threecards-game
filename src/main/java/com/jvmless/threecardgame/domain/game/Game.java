@@ -19,7 +19,7 @@ public class Game {
     private Host host;
     private Set<Gamer> players = new HashSet<>();
     private Integer availableMoves = 10;
-    private List<Move> moves = new ArrayList<>();
+    private Moves moves = new Moves();
     private Cards cards;
     private Results results = new Results();
 
@@ -58,8 +58,8 @@ public class Game {
     }
 
     public void move(int current, int destination, HostId hostId) {
-        if (isOnShuffleStage() && host != null && this.host.match(hostId) && moves.size() < availableMoves) {
-            moves.add(new Move(new Position(current), new Position(destination)));
+        if (isOnShuffleStage() && host != null && this.host.match(hostId)) {
+            moves.add(current, destination);
         }
     }
 
@@ -73,12 +73,12 @@ public class Game {
         }
     }
 
-    public boolean checkWinning(GamerId gamerId, Position position) {
+    public boolean check(GamerId gamerId, Position position) {
         //if there is result for player then he cannot check again
-        if(results.hasAny(gamerId)) {
+        if (results.hasAny(gamerId)) {
             throw new IllegalStateException("Gamer cannot check result!");
         }
-        if(!hasGamer(gamerId)) {
+        if (!hasGamer(gamerId)) {
             throw new IllegalArgumentException("Gamer has not joined this game!");
         }
 
@@ -96,9 +96,9 @@ public class Game {
 
     private Card getShuffleCardOn(Position position) {
         return shuffleCard().stream()
-                        .filter(x -> x.getPosition().equals(position))
-                        .findFirst()
-                        .orElseThrow(() -> new IllegalArgumentException("Position not find!"));
+                .filter(x -> x.getPosition().equals(position))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Position not find!"));
     }
 
     public boolean isOnGuestingStage() {
@@ -106,12 +106,14 @@ public class Game {
     }
 
     private Set<Card> shuffleCard() {
-        return this.cards.shuffle(this.moves);
+        return this.cards.shuffle(this.moves.all());
     }
 
     public void timeout() {
+    }
 
-
+    public boolean isHost(HostId hostId) {
+        return host.match(hostId);
     }
 
     public boolean hasResultsForAllPlayers() {
@@ -125,7 +127,7 @@ public class Game {
     public void leaveMatch(GamerId gamerId) {
         Gamer gamer = getGamer(gamerId);
         if (gamer != null)
-           gamer.deactivate();
+            gamer.deactivate();
     }
 
     public boolean hasTimeout() {
