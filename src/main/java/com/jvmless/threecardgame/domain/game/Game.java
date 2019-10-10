@@ -32,7 +32,7 @@ public class Game {
     }
 
     public void start() {
-        if (host != null && players.size() > 0 && availableMoves > 0 && isActive()) {
+        if (host != null && availableMoves > 0 && isActive()) {
             gameStatus = GameStatus.PENDING;
         } else {
             throw new IllegalStateException(String.format("Cannot start the game! Game has %d players, %d available moves!", players.size(), availableMoves));
