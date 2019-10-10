@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+<form action="">
+    <label for="roomName">Room name</label>
+    <input type="text" class="form-control" id="roomName" aria-describedby="roomNameHelp" placeholder="Enter room name">
+    <small id="roomNameHelp" class="form-text text-muted">Your game room name.</small>
+    <button type="submit" class="btn btn-primary">Start</button>
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.2/socket.io.min.js"></script>
+<script>
+    function output(message) {
+        $('#console').prepend(message);
+    }
+    function uuidv4() {
+        return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+    }
+    $(function () {
+        var socket =  io.connect('http://localhost:9092');
+        $('form').submit(function(e){
+            e.preventDefault(); // prevents page reloading
+
+            console.log();
+            socket.emit('startGame', {
+                gameId: uuidv4(),
+                hostId: socket.id,
+                roomName: $("#roomName").val()
+            });
+            socket.on('startedGames', function(data) {
+                output('<span>' + data + ':</span> ');
+            });
+
+            return false;
+        });
+    });
+
+
+</script>
+<div id="console" class="well">
+</div>
+</body>
+
+</html>
