@@ -86,7 +86,12 @@ public class Game {
             gamer.removeCheck();
             Card c = getShuffleCardOn(position);
             boolean checkResult = c.getCardType().equals(CardType.WINNING);
-            results.add(gamerId, checkResult);
+            if(checkResult) {
+                results.win(host.getHostId(), gamerId);
+            } else {
+                results.lost(host.getHostId(), gamerId);
+
+            }
             return checkResult;
         } else {
             throw new IllegalStateException(String.format("Cannot check winning card - currently game is on stage: %s!", getGameStatus()));
@@ -106,6 +111,14 @@ public class Game {
 
     private Set<Card> shuffleCard() {
         return this.cards.shuffle(this.moves.all());
+    }
+
+    public void timeout() {
+        if(isInactive()){
+            this.results.draft(host.getHostId(), null);
+            this.end = LocalDateTime.now();
+            this.gameStatus = GameStatus.END;
+        }
     }
 
     public void end() {
@@ -129,6 +142,14 @@ public class Game {
         Gamer gamer = getGamer(gamerId);
         if (gamer != null)
             gamer.deactivate();
+    }
+
+    public boolean isStarted() {
+        return this.gameStatus.equals(GameStatus.PENDING);
+    }
+
+    public boolean isInactive() {
+        return isStarted() && LocalDateTime.now().minusMinutes(2).isAfter(created);
     }
 
     public boolean isActive() {

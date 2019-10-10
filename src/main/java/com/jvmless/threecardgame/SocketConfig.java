@@ -8,6 +8,7 @@ import com.jvmless.threecardgame.handlers.JoinGameCommand;
 import com.jvmless.threecardgame.handlers.MakeMoveCommand;
 import com.jvmless.threecardgame.handlers.PlayGameCommand;
 import com.jvmless.threecardgame.handlers.StartGameCommand;
+import com.jvmless.threecardgame.services.GameEventService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,14 +20,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class SocketConfig {
 
 
+
     @Bean
-    public SocketIOServer webSocketServer(
-            DataListener<StartGameCommand> startGameCommandDataListener,
-            DataListener<JoinGameCommand> joinGameCommandDataListener,
-            DataListener<PlayGameCommand> playGameCommandDataListener,
-            DataListener<MakeMoveCommand> makeMoveCommandDataListener,
-            DisconnectListener disconnectListener,
-            ConnectListener connectListener) {
+    public SocketIOServer webSocketServer() {
 
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setHostname("localhost");
@@ -34,15 +30,16 @@ public class SocketConfig {
 
         final SocketIOServer server = new SocketIOServer(config);
 
-        server.addConnectListener(connectListener);
-        server.addEventListener("startGame", StartGameCommand.class, startGameCommandDataListener);
-        server.addEventListener("joinGame", JoinGameCommand.class, joinGameCommandDataListener);
-        server.addEventListener("playGame", PlayGameCommand.class, playGameCommandDataListener);
-        server.addEventListener("makeMove", MakeMoveCommand.class, makeMoveCommandDataListener);
-        server.addDisconnectListener(disconnectListener);
 
         return server;
 
     }
+
+    @Bean
+    public GameEventService gameEventService(SocketIOServer socketIOServer) {
+        return new GameEventService(socketIOServer);
+    }
+
+
 }
 

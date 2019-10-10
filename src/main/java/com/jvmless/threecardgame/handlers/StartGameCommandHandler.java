@@ -1,20 +1,21 @@
 package com.jvmless.threecardgame.handlers;
 
+import com.jvmless.threecardgame.services.GameEventService;
 import com.jvmless.threecardgame.domain.game.*;
 import com.jvmless.threecardgame.domain.player.Player;
 import com.jvmless.threecardgame.domain.player.PlayerId;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
 
-import java.util.List;
-
 public class StartGameCommandHandler {
 
     private final PlayerRepository playerRepository;
     private final GamesRepository gamesRepository;
+    private final GameEventService gameEventService;
 
-    public StartGameCommandHandler(PlayerRepository playerRepository, GamesRepository gamesRepository) {
+    public StartGameCommandHandler(PlayerRepository playerRepository, GamesRepository gamesRepository, GameEventService gameEventService) {
         this.playerRepository = playerRepository;
         this.gamesRepository = gamesRepository;
+        this.gameEventService = gameEventService;
     }
 
     public void handle(StartGameCommand command) {
@@ -28,6 +29,7 @@ public class StartGameCommandHandler {
                 Game newGame = new Game(gameId, hostId, command.getRoomName());
                 newGame.start();
                 gamesRepository.save(newGame);
+                gameEventService.sendGameStartedEvent(gameId);
             } else {
                 throw new IllegalStateException("Host has active games!");
             }

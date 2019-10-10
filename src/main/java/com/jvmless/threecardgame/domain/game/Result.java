@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class Result {
     private GamerId gamerId;
+    private HostId hostId;
     private ResultState resultState;
     private LocalDateTime resultTime;
 }

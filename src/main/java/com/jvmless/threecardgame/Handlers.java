@@ -6,6 +6,7 @@ import com.jvmless.threecardgame.handlers.JoinGameCommandHandler;
 import com.jvmless.threecardgame.handlers.MakeMoveCommandHandler;
 import com.jvmless.threecardgame.handlers.PlayGameCommandHandler;
 import com.jvmless.threecardgame.handlers.StartGameCommandHandler;
+import com.jvmless.threecardgame.services.GameEventService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,8 +14,8 @@ import org.springframework.context.annotation.Configuration;
 public class Handlers {
 
     @Bean
-    public StartGameCommandHandler startGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository) {
-        return new StartGameCommandHandler(playerRepository, gamesRepository);
+    public StartGameCommandHandler startGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository, GameEventService gameEventService) {
+        return new StartGameCommandHandler(playerRepository, gamesRepository, gameEventService);
     }
 
     @Bean
