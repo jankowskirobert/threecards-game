@@ -22,6 +22,7 @@ public class Game {
     private Integer availableMoves = 10;
     private List<Move> moves = new ArrayList<>();
     private Cards cards;
+    private Results results = new Results();
 
     public Game(GameId gameId, HostId host, String roomName) {
         this.gameId = gameId;
@@ -40,7 +41,7 @@ public class Game {
     }
 
     public void joinMatch(GamerId gamerId) {
-        if (gameStatus.equals(GameStatus.PENDING)) {
+        if (gameStatus.equals(GameStatus.PENDING) && !hasGamer(gamerId)) {
             players.add(new Gamer(gamerId));
         } else {
             throw new IllegalStateException("Cannot joint the game!");
@@ -70,6 +71,10 @@ public class Game {
     }
 
     public boolean checkWinning(GamerId gamerId, Position position) {
+        //if there is result for player then he cannot check again
+        if(results.hasAny(gamerId)) {
+            throw new IllegalStateException("Gamer cannot check result!");
+        }
         if(!hasGamer(gamerId)) {
             throw new IllegalArgumentException("Gamer has not joined this game!");
         }
@@ -84,7 +89,10 @@ public class Game {
                     .filter(x -> x.getPosition().equals(position))
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Position not find!"));
-            return c.getCardType().equals(CardType.WINNING);
+
+            boolean checkResult = c.getCardType().equals(CardType.WINNING);
+            results.add(gamerId, checkResult);
+            return checkResult;
         } else {
             throw new IllegalStateException(String.format("Cannot check winning card - currently game is on stage: %s!", getGameStatus()));
         }

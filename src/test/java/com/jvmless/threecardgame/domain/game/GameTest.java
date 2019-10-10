@@ -40,6 +40,7 @@ public class GameTest {
         game.play(hostId, cards);
         game.acceptShuffle(hostId);
         game.checkWinning(gamerId, new Position(2));
+        game.checkWinning(gamerId, new Position(2));
     }
 
 }
