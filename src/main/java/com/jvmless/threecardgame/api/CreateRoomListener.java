@@ -3,8 +3,8 @@ package com.jvmless.threecardgame.api;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
-import com.jvmless.threecardgame.handlers.CreateRoomCommand;
-import com.jvmless.threecardgame.handlers.CreateRoomCommandHandler;
+import com.jvmless.threecardgame.handlers.commands.dto.CreateRoomCommand;
+import com.jvmless.threecardgame.handlers.commands.CreateRoomCommandHandler;
 
 public class CreateRoomListener implements DataListener<CreateRoomCommand> {
 

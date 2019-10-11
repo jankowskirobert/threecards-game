@@ -1,4 +1,4 @@
-package com.jvmless.threecardgame.handlers;
+package com.jvmless.threecardgame.handlers.commands;
 
 import com.jvmless.threecardgame.domain.game.Game;
 import com.jvmless.threecardgame.domain.game.GamesRepository;
@@ -6,26 +6,30 @@ import com.jvmless.threecardgame.domain.game.HostId;
 import com.jvmless.threecardgame.domain.player.Player;
 import com.jvmless.threecardgame.domain.player.PlayerId;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
+import com.jvmless.threecardgame.handlers.commands.dto.PlayGameCommand;
 
-public class MakeMoveCommandHandler {
+import java.util.HashSet;
+
+public class PlayGameCommandHandler {
 
     private final GamesRepository gamesRepository;
     private final PlayerRepository playerRepository;
 
-    public MakeMoveCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository) {
+    public PlayGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository) {
         this.gamesRepository = gamesRepository;
         this.playerRepository = playerRepository;
     }
 
-    public void handle(MakeMoveCommand makeMoveCommand) {
-        HostId hostId = new HostId(makeMoveCommand.getHostId());
-        PlayerId playerId = new PlayerId(makeMoveCommand.getHostId());
+    public void handle(PlayGameCommand playGameCommand) {
+        HostId hostId = new HostId(playGameCommand.getHostId());
+        PlayerId playerId = new PlayerId(playGameCommand.getHostId());
         Player player = playerRepository.find(playerId);
-        if (player != null) {
+        if(player != null) {
             Game game = gamesRepository.findActiveGamesByHostId(hostId);
             if (game != null) {
-                game.move(makeMoveCommand.getPrevious(), makeMoveCommand.getCurrent(), hostId);
+                game.play(hostId, new HashSet<>(playGameCommand.getCards()));
             }
         }
     }
+
 }

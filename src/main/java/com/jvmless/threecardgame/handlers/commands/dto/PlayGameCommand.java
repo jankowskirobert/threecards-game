@@ -1,4 +1,4 @@
-package com.jvmless.threecardgame.handlers;
+package com.jvmless.threecardgame.handlers.commands.dto;
 
 import com.jvmless.threecardgame.domain.game.Card;
 import com.jvmless.threecardgame.domain.game.Position;

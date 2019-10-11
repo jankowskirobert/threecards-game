@@ -1,4 +1,4 @@
-package com.jvmless.threecardgame.handlers;
+package com.jvmless.threecardgame.handlers.commands.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Player {
     private PlayerId playerId;
+    private String name;
 }

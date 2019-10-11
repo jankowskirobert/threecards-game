@@ -121,6 +121,10 @@ public class Game {
         }
     }
 
+    public int playersCount() {
+        return players.size();
+    }
+
     public void end() {
         this.end = LocalDateTime.now();
         this.gameStatus = GameStatus.END;

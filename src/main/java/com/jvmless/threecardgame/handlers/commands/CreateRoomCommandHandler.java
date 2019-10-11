@@ -1,9 +1,10 @@
-package com.jvmless.threecardgame.handlers;
+package com.jvmless.threecardgame.handlers.commands;
 
 import com.jvmless.threecardgame.domain.player.Player;
 import com.jvmless.threecardgame.domain.player.PlayerId;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
 import com.jvmless.threecardgame.domain.room.*;
+import com.jvmless.threecardgame.handlers.commands.dto.CreateRoomCommand;
 
 public class CreateRoomCommandHandler {
 

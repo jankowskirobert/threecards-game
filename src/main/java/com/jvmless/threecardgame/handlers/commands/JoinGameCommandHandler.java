@@ -1,11 +1,10 @@
-package com.jvmless.threecardgame.handlers;
+package com.jvmless.threecardgame.handlers.commands;
 
 import com.jvmless.threecardgame.domain.game.*;
 import com.jvmless.threecardgame.domain.player.Player;
 import com.jvmless.threecardgame.domain.player.PlayerId;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
-
-import java.util.List;
+import com.jvmless.threecardgame.handlers.commands.dto.JoinGameCommand;
 
 public class JoinGameCommandHandler {
 

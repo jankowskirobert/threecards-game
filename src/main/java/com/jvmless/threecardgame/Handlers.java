@@ -2,10 +2,10 @@ package com.jvmless.threecardgame;
 
 import com.jvmless.threecardgame.domain.game.GamesRepository;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
-import com.jvmless.threecardgame.handlers.JoinGameCommandHandler;
-import com.jvmless.threecardgame.handlers.MakeMoveCommandHandler;
-import com.jvmless.threecardgame.handlers.PlayGameCommandHandler;
-import com.jvmless.threecardgame.handlers.StartGameCommandHandler;
+import com.jvmless.threecardgame.handlers.commands.JoinGameCommandHandler;
+import com.jvmless.threecardgame.handlers.commands.MakeMoveCommandHandler;
+import com.jvmless.threecardgame.handlers.commands.PlayGameCommandHandler;
+import com.jvmless.threecardgame.handlers.commands.StartGameCommandHandler;
 import com.jvmless.threecardgame.services.GameEventService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

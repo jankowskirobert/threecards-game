@@ -3,8 +3,8 @@ package com.jvmless.threecardgame.api;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
-import com.jvmless.threecardgame.handlers.MakeMoveCommand;
-import com.jvmless.threecardgame.handlers.MakeMoveCommandHandler;
+import com.jvmless.threecardgame.handlers.commands.dto.MakeMoveCommand;
+import com.jvmless.threecardgame.handlers.commands.MakeMoveCommandHandler;
 
 public class MakeMoveListener implements DataListener<MakeMoveCommand> {
 

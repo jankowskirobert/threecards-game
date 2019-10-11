@@ -1,5 +1,6 @@
-package com.jvmless.threecardgame.handlers;
+package com.jvmless.threecardgame.handlers.commands;
 
+import com.jvmless.threecardgame.handlers.commands.dto.StartGameCommand;
 import com.jvmless.threecardgame.services.GameEventService;
 import com.jvmless.threecardgame.domain.game.*;
 import com.jvmless.threecardgame.domain.player.Player;

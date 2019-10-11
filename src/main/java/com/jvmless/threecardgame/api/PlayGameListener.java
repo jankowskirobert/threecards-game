@@ -3,8 +3,8 @@ package com.jvmless.threecardgame.api;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
-import com.jvmless.threecardgame.handlers.PlayGameCommand;
-import com.jvmless.threecardgame.handlers.PlayGameCommandHandler;
+import com.jvmless.threecardgame.handlers.commands.dto.PlayGameCommand;
+import com.jvmless.threecardgame.handlers.commands.PlayGameCommandHandler;
 
 public class PlayGameListener implements DataListener<PlayGameCommand> {
 

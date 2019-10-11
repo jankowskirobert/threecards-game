@@ -1,4 +1,4 @@
-package com.jvmless.threecardgame.handlers;
+package com.jvmless.threecardgame.handlers.queries.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class JoinGameCommand {
-    private String playerId;
-    private String gameId;
+public class Player {
+    private String name;
+    private String id;
 }
