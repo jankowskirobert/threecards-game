@@ -6,6 +6,7 @@ import com.jvmless.threecardgame.handlers.commands.JoinGameCommandHandler;
 import com.jvmless.threecardgame.handlers.commands.MakeMoveCommandHandler;
 import com.jvmless.threecardgame.handlers.commands.PlayGameCommandHandler;
 import com.jvmless.threecardgame.handlers.commands.StartGameCommandHandler;
+import com.jvmless.threecardgame.handlers.queries.AvailableGameQueryHandler;
 import com.jvmless.threecardgame.services.GameEventService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,5 +32,10 @@ public class Handlers {
     @Bean
     public JoinGameCommandHandler joinGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository) {
         return new JoinGameCommandHandler(gamesRepository, playerRepository);
+    }
+
+    @Bean
+    public AvailableGameQueryHandler availableGameQueryHandler(GamesRepository gamesRepository, PlayerRepository playerRepository) {
+        return new AvailableGameQueryHandler(gamesRepository, playerRepository);
     }
 }

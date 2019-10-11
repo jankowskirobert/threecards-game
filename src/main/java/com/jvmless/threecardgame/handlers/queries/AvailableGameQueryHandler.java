@@ -7,10 +7,13 @@ import com.jvmless.threecardgame.domain.player.PlayerId;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
 import com.jvmless.threecardgame.handlers.queries.dto.AvailableGame;
 import com.jvmless.threecardgame.handlers.queries.dto.AvailableGameQuery;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class AvailableGameQueryHandler {
 
     private final GamesRepository gamesRepository;
@@ -21,7 +24,9 @@ public class AvailableGameQueryHandler {
         this.playerRepository = playerRepository;
     }
 
+    @Cacheable
     public AvailableGameQuery query() {
+        log.info("Query games!");
         List<Game> games = gamesRepository.findAllActive();
 
         AvailableGameQuery availableGameQuery = new AvailableGameQuery();
@@ -36,7 +41,7 @@ public class AvailableGameQueryHandler {
                     return availableGame;
                 }).collect(Collectors.toList())
         );
-        return null;
+        return availableGameQuery;
     }
 
 }

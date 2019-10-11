@@ -31,6 +31,7 @@ public class StartGameCommandHandler {
                 newGame.start();
                 gamesRepository.save(newGame);
                 gameEventService.sendGameStartedEvent(gameId);
+                gameEventService.sendActiveGames();
             } else {
                 throw new IllegalStateException("Host has active games!");
             }

@@ -35,8 +35,9 @@
                 hostId: socket.id,
                 roomName: $("#roomName").val()
             });
-            socket.on('startedGames', function(data) {
-                output('<span>' + data + ':</span> ');
+
+            socket.on('activeGames', function(data) {
+                output('<span>' + data.allPlayersInGame + ':</span> ');
             });
 
             return false;
