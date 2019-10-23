@@ -16,6 +16,7 @@ public class Game {
     private LocalDateTime end;
     private GameStatus gameStatus;
     private Host host;
+    private static final Integer MAX_PLAYERS = 3;
     private Set<Gamer> players = new HashSet<>();
     private Integer availableMoves = 10;
     private Moves moves = new Moves();
@@ -38,11 +39,19 @@ public class Game {
         }
     }
 
+    public boolean hasMaxGamers() {
+        return MAX_PLAYERS.compareTo(players.size()) == 0;
+    }
+
+    public boolean canJoin(GamerId gamerId) {
+        return gameStatus.equals(GameStatus.PENDING) && !hasGamer(gamerId) && !hasMaxGamers();
+    }
+
     public void joinMatch(GamerId gamerId) {
-        if (gameStatus.equals(GameStatus.PENDING) && !hasGamer(gamerId)) {
+        if (canJoin(gamerId)) {
             players.add(new Gamer(gamerId));
         } else {
-            throw new IllegalStateException("Cannot joint the game!");
+            throw new IllegalStateException(String.format("Cannot joint the game! Current players: %d (MAX: %d), already playing?: %s, status: %s",players.size(), MAX_PLAYERS, hasGamer(gamerId), gameStatus.name()));
         }
     }
 
