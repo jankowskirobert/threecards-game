@@ -1,5 +1,6 @@
-package com.jvmless.threecardgame.domain.game;
+package com.jvmless.threecardgame.domain.shuffle;
 
+import com.jvmless.threecardgame.domain.shared.Position;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

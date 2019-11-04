@@ -1,15 +1,29 @@
 package com.jvmless.threecardgame.domain.game;
 
+import com.jvmless.threecardgame.domain.shuffle.Card;
+import com.jvmless.threecardgame.domain.shared.Position;
+import com.jvmless.threecardgame.domain.shuffle.CardType;
+import com.jvmless.threecardgame.domain.shuffle.Cards;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Document(collection = "games")
 public class Game {
+    @Id
     private GameId gameId;
+    @Indexed(unique = true)
     private String roomName;
     private LocalDateTime created;
     private LocalDateTime start;
@@ -19,7 +33,6 @@ public class Game {
     private static final Integer MAX_PLAYERS = 3;
     private Set<Gamer> players = new HashSet<>();
     private Integer availableMoves = 10;
-    private Moves moves = new Moves();
     private Cards cards;
     private Results results = new Results();
 
@@ -51,7 +64,7 @@ public class Game {
         if (canJoin(gamerId)) {
             players.add(new Gamer(gamerId));
         } else {
-            throw new IllegalStateException(String.format("Cannot joint the game! Current players: %d (MAX: %d), already playing?: %s, status: %s",players.size(), MAX_PLAYERS, hasGamer(gamerId), gameStatus.name()));
+            throw new IllegalStateException(String.format("Cannot joint the game! Current players: %d (MAX: %d), already playing?: %s, status: %s", players.size(), MAX_PLAYERS, hasGamer(gamerId), gameStatus.name()));
         }
     }
 
@@ -65,12 +78,6 @@ public class Game {
         }
     }
 
-    public void move(int current, int destination, HostId hostId) {
-        if (isOnShuffleStage() && host != null && isHost(hostId)) {
-            moves.add(current, destination);
-        }
-    }
-
     public boolean isOnShuffleStage() {
         return gameStatus.equals(GameStatus.HOST_SHUFFLE);
     }
@@ -81,7 +88,7 @@ public class Game {
         }
     }
 
-    public boolean check(GamerId gamerId, Position position) {
+    public boolean check(GamerId gamerId, Position position, Set<Card> cards) {
         //if there is result for player then he cannot check again
         if (results.hasAny(gamerId)) {
             throw new IllegalStateException("Gamer cannot check result!");
@@ -93,9 +100,9 @@ public class Game {
         if (isOnGuestingStage()) {
             Gamer gamer = getGamer(gamerId);
             gamer.removeCheck();
-            Card c = getShuffleCardOn(position);
+            Card c = getShuffleCardOn(position, cards);
             boolean checkResult = c.getCardType().equals(CardType.WINNING);
-            if(checkResult) {
+            if (checkResult) {
                 results.win(host.getHostId(), gamerId);
             } else {
                 results.lost(host.getHostId(), gamerId);
@@ -107,8 +114,8 @@ public class Game {
         }
     }
 
-    private Card getShuffleCardOn(Position position) {
-        return shuffleCard().stream()
+    private Card getShuffleCardOn(Position position, Set<Card> cards) {
+        return cards.stream()
                 .filter(x -> x.getPosition().equals(position))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Position not find!"));
@@ -118,12 +125,12 @@ public class Game {
         return this.gameStatus.equals(GameStatus.PLAYER_GUESTING);
     }
 
-    private Set<Card> shuffleCard() {
-        return this.cards.shuffle(this.moves.all());
-    }
+//    private Set<Card> shuffleCard(Cards cards, GameMoves moves) {
+//        return this.cards.shuffle(moves.all());
+//    }
 
     public void timeout() {
-        if(isInactive()){
+        if (isInactive()) {
             this.results.draft(host.getHostId(), null);
             this.end = LocalDateTime.now();
             this.gameStatus = GameStatus.END;

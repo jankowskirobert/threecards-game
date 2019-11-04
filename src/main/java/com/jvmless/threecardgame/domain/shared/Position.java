@@ -1,4 +1,4 @@
-package com.jvmless.threecardgame.domain.game;
+package com.jvmless.threecardgame.domain.shared;
 
 import lombok.*;
 

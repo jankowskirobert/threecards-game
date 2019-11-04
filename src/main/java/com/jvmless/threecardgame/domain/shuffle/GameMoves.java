@@ -1,4 +1,11 @@
-package com.jvmless.threecardgame.domain.game;
+package com.jvmless.threecardgame.domain.shuffle;
+
+import com.jvmless.threecardgame.domain.game.GameId;
+import com.jvmless.threecardgame.domain.shared.Position;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -6,12 +13,19 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Moves {
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Document(collection = "moves")
+public class GameMoves {
+    private GameMovesId gameMovesId;
+    private GameId gameId;
     private List<Move> moves = new ArrayList<>();
     private static final Integer MAX_MOVES = 10;
     private Comparator<Move> moveComparable = Comparator.comparing(Move::getMoveDate);
-    public Moves() {
-        moves.sort(moveComparable);
+
+    public GameMoves(GameMovesId gameMovesId, GameId gameId) {
+        this.gameId = gameId;
+        this.moves.sort(moveComparable);
     }
 
     public LocalDateTime last() {
@@ -20,7 +34,7 @@ public class Moves {
     }
 
     public void add(int current, int destination) {
-        if(moves.size() < MAX_MOVES) {
+        if (moves.size() < MAX_MOVES) {
             Move move = new Move(new Position(current), new Position(destination));
             this.moves.add(move);
         }

@@ -1,6 +1,7 @@
 package com.jvmless.threecardgame;
 
 import com.jvmless.threecardgame.domain.game.GamesRepository;
+import com.jvmless.threecardgame.domain.shuffle.GameMovesRepository;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
 import com.jvmless.threecardgame.handlers.commands.JoinGameCommandHandler;
 import com.jvmless.threecardgame.handlers.commands.MakeMoveCommandHandler;
@@ -25,8 +26,8 @@ public class Handlers {
     }
 
     @Bean
-    public MakeMoveCommandHandler makeMoveCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository) {
-        return new MakeMoveCommandHandler(gamesRepository, playerRepository);
+    public MakeMoveCommandHandler makeMoveCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository, GameMovesRepository gameMovesRepository) {
+        return new MakeMoveCommandHandler(gamesRepository, playerRepository, gameMovesRepository);
     }
 
     @Bean

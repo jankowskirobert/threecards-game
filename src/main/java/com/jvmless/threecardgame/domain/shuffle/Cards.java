@@ -1,18 +1,19 @@
-package com.jvmless.threecardgame.domain.game;
+package com.jvmless.threecardgame.domain.shuffle;
 
+import com.jvmless.threecardgame.domain.shared.Position;
 import lombok.Getter;
 
 import java.util.*;
 
 @Getter
-class Cards {
+public class Cards {
 
     private static final int MAX_CARDS = 3;
     private static final int WINNING = 1;
     private static final int LOOSING = 2;
-    private Set<Card> cards;
+    private Set<Card> cards = new HashSet<>();
 
-    protected Cards(Set<Card> cards) {
+    public Cards(Set<Card> cards) {
         if (cards.size() == MAX_CARDS)
             if(getCountOfType(cards, CardType.WINNING) == WINNING && getCountOfType(cards, CardType.LOOSING) == LOOSING)
                 this.cards = Collections.unmodifiableSet(cards);

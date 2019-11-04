@@ -12,10 +12,12 @@ import com.jvmless.threecardgame.handlers.commands.dto.JoinGameCommand;
 import com.jvmless.threecardgame.handlers.commands.dto.MakeMoveCommand;
 import com.jvmless.threecardgame.handlers.commands.dto.PlayGameCommand;
 import com.jvmless.threecardgame.handlers.commands.dto.StartGameCommand;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@Slf4j
 @Configuration
 public class Listeners {
 
@@ -38,6 +40,7 @@ public class Listeners {
 
     @Bean
     public DataListener<StartGameCommand> startGameCommandDataListener(StartGameCommandHandler startGameCommandHandler) {
+        log.info("Starting game!");
         StartGameListener startGameListener = new StartGameListener(startGameCommandHandler);
         socketIOServer.addEventListener("startGame", StartGameCommand.class, startGameListener);
         return startGameListener;

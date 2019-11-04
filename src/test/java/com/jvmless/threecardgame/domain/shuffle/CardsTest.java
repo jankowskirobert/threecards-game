@@ -1,5 +1,6 @@
-package com.jvmless.threecardgame.domain.game;
+package com.jvmless.threecardgame.domain.shuffle;
 
+import com.jvmless.threecardgame.domain.shared.Position;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -7,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.junit.Assert.*;
 
 public class CardsTest {
 

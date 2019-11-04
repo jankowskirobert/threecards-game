@@ -1,8 +1,10 @@
 package com.jvmless.threecardgame.domain.game;
 
+import com.jvmless.threecardgame.domain.shuffle.Card;
+import com.jvmless.threecardgame.domain.shared.Position;
+import com.jvmless.threecardgame.domain.shuffle.CardType;
 import org.junit.Assert;
 import org.junit.Test;
-import sun.jvm.hotspot.debugger.InputLexer;
 
 import java.util.HashSet;
 
@@ -41,7 +43,7 @@ public class GameTest {
         cards.add(new Card(new Position(3), CardType.WINNING));
         game.play(hostId, cards);
         game.acceptShuffle(hostId);
-        game.check(gamerId, new Position(2));
+        game.check(gamerId, new Position(2), cards);
         Assert.assertTrue(game.hasResultsForAllPlayers());
     }
 

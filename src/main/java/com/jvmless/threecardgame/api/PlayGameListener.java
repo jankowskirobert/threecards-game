@@ -5,7 +5,9 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.jvmless.threecardgame.handlers.commands.dto.PlayGameCommand;
 import com.jvmless.threecardgame.handlers.commands.PlayGameCommandHandler;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PlayGameListener implements DataListener<PlayGameCommand> {
 
     private final PlayGameCommandHandler playGameCommandHandler;
@@ -16,6 +18,7 @@ public class PlayGameListener implements DataListener<PlayGameCommand> {
 
     @Override
     public void onData(SocketIOClient socketIOClient, PlayGameCommand playGameCommand, AckRequest ackRequest) throws Exception {
+        log.info("Play game!");
         playGameCommandHandler.handle(playGameCommand);
     }
 }

@@ -26,9 +26,7 @@ public class AvailableGameQueryHandler {
 
     @Cacheable
     public AvailableGameQuery query() {
-        log.info("Query games!");
         List<Game> games = gamesRepository.findAllActive();
-
         AvailableGameQuery availableGameQuery = new AvailableGameQuery();
         availableGameQuery.setAllPlayersInGame(games.size());
         availableGameQuery.setActiveGames(

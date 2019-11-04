@@ -1,5 +1,6 @@
-package com.jvmless.threecardgame.domain.game;
+package com.jvmless.threecardgame.domain.shuffle;
 
+import com.jvmless.threecardgame.domain.shared.Position;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

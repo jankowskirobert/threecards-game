@@ -23,7 +23,7 @@ public class SocketConfig {
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setHostname("localhost");
         config.setPort(9092);
-        config.setTransports(Transport.WEBSOCKET, Transport.POLLING);
+//        config.setTransports(Transport.WEBSOCKET, Transport.POLLING);
 
 
         final SocketIOServer server = new SocketIOServer(config);

@@ -21,21 +21,21 @@ public class GameEngine {
 
     @Scheduled(fixedDelay = 42)
     public void gameRunner() {
-        List<Game> games = gamesRepository.findAllActive();
-        games.parallelStream().forEach(
-                game -> {
-                    if(game.hasResultsForAllPlayers() && game.isOnGuestingStage() ) {
-                        game.end();
-                        log.info("Game: {} ended and has been shut down!", game.getGameId());
-                    }
-                    if(game.isInactive()) {
-                        game.timeout();
-                        log.info("Game: {} timeout has been shut down!", game.getGameId());
-
-                    }
-                    gamesRepository.save(game);
-                }
-        );
+//        List<Game> games = gamesRepository.findAllActive();
+//        games.parallelStream().forEach(
+//                game -> {
+//                    if(game.hasResultsForAllPlayers() && game.isOnGuestingStage() ) {
+//                        game.end();
+//                        log.info("Game: {} ended and has been shut down!", game.getGameId());
+//                    }
+//                    if(game.isInactive()) {
+//                        game.timeout();
+//                        log.info("Game: {} timeout has been shut down!", game.getGameId());
+//
+//                    }
+//                    gamesRepository.save(game);
+//                }
+//        );
     }
 
 }
