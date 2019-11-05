@@ -17,12 +17,12 @@ public class Handlers {
 
     @Bean
     public StartGameCommandHandler startGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository, GameEventService gameEventService) {
-        return new StartGameCommandHandler(playerRepository, gamesRepository, gameEventService);
+        return new StartGameCommandHandler(playerRepository, gamesRepository, gameEventService, gameMovesRepository);
     }
 
     @Bean
     public PlayGameCommandHandler playGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository) {
-        return new PlayGameCommandHandler(gamesRepository, playerRepository);
+        return new PlayGameCommandHandler(gamesRepository, playerRepository, cardsRepository);
     }
 
     @Bean

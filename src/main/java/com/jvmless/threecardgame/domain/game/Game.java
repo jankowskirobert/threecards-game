@@ -33,7 +33,7 @@ public class Game {
     private static final Integer MAX_PLAYERS = 3;
     private Set<Gamer> players = new HashSet<>();
     private Integer availableMoves = 10;
-    private Cards cards;
+//    private Cards cards;
     private Results results = new Results();
 
     public Game(GameId gameId, HostId host, String roomName) {
@@ -68,11 +68,10 @@ public class Game {
         }
     }
 
-    public void play(HostId hostId, Set<Card> cards) {
+    public void play(HostId hostId) {
         if (host != null && this.isHost(hostId) && players.size() > 0) {
             gameStatus = GameStatus.HOST_SHUFFLE;
             start = LocalDateTime.now();
-            this.cards = new Cards(cards);
         } else {
             throw new IllegalStateException("Not enough players to play!");
         }

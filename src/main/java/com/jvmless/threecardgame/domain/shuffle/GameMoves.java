@@ -8,10 +8,7 @@ import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -23,7 +20,8 @@ public class GameMoves {
     private static final Integer MAX_MOVES = 10;
     private Comparator<Move> moveComparable = Comparator.comparing(Move::getMoveDate);
 
-    public GameMoves(GameMovesId gameMovesId, GameId gameId) {
+    public GameMoves(GameId gameId) {
+        this.gameMovesId = new GameMovesId(UUID.randomUUID().toString());
         this.gameId = gameId;
         this.moves.sort(moveComparable);
     }

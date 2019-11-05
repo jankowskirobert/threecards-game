@@ -1,19 +1,26 @@
 package com.jvmless.threecardgame.domain.shuffle;
 
+import com.jvmless.threecardgame.domain.game.GameId;
 import com.jvmless.threecardgame.domain.shared.Position;
 import lombok.Getter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.*;
 
 @Getter
+@Document(collection = "cards")
 public class Cards {
 
+    private CardsId cardsId;
+    private GameId gameId;
     private static final int MAX_CARDS = 3;
     private static final int WINNING = 1;
     private static final int LOOSING = 2;
-    private Set<Card> cards = new HashSet<>();
+    private Set<Card> cards;
 
-    public Cards(Set<Card> cards) {
+    public Cards(GameId gameId, Set<Card> cards) {
+        this.cardsId = new CardsId(UUID.randomUUID().toString());
+        this.gameId = gameId;
         if (cards.size() == MAX_CARDS)
             if(getCountOfType(cards, CardType.WINNING) == WINNING && getCountOfType(cards, CardType.LOOSING) == LOOSING)
                 this.cards = Collections.unmodifiableSet(cards);
