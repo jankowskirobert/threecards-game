@@ -3,6 +3,8 @@ package com.jvmless.threecardgame.domain.shuffle;
 import com.jvmless.threecardgame.domain.game.GameId;
 import com.jvmless.threecardgame.domain.shared.Position;
 import lombok.Getter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.*;
@@ -10,8 +12,9 @@ import java.util.*;
 @Getter
 @Document(collection = "cards")
 public class Cards {
-
+    @Id
     private CardsId cardsId;
+    @Indexed(unique = true)
     private GameId gameId;
     private static final int MAX_CARDS = 3;
     private static final int WINNING = 1;

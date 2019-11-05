@@ -5,6 +5,8 @@ import com.jvmless.threecardgame.domain.shared.Position;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -14,7 +16,9 @@ import java.util.*;
 @Getter
 @Document(collection = "moves")
 public class GameMoves {
+    @Id
     private GameMovesId gameMovesId;
+    @Indexed(unique = true)
     private GameId gameId;
     private List<Move> moves = new ArrayList<>();
     private static final Integer MAX_MOVES = 10;

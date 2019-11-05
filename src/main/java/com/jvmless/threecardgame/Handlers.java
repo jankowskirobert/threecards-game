@@ -1,6 +1,7 @@
 package com.jvmless.threecardgame;
 
 import com.jvmless.threecardgame.domain.game.GamesRepository;
+import com.jvmless.threecardgame.domain.shuffle.CardsRepository;
 import com.jvmless.threecardgame.domain.shuffle.GameMovesRepository;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
 import com.jvmless.threecardgame.handlers.commands.JoinGameCommandHandler;
@@ -16,12 +17,12 @@ import org.springframework.context.annotation.Configuration;
 public class Handlers {
 
     @Bean
-    public StartGameCommandHandler startGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository, GameEventService gameEventService) {
+    public StartGameCommandHandler startGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository, GameEventService gameEventService, GameMovesRepository gameMovesRepository) {
         return new StartGameCommandHandler(playerRepository, gamesRepository, gameEventService, gameMovesRepository);
     }
 
     @Bean
-    public PlayGameCommandHandler playGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository) {
+    public PlayGameCommandHandler playGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository, CardsRepository cardsRepository) {
         return new PlayGameCommandHandler(gamesRepository, playerRepository, cardsRepository);
     }
 
