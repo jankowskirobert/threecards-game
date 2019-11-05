@@ -24,7 +24,7 @@ public class GameTest {
         cards.add(new Card(new Position(1), CardType.LOOSING));
         cards.add(new Card(new Position(2), CardType.LOOSING));
         cards.add(new Card(new Position(3), CardType.WINNING));
-        game.play(hostId, cards);
+        game.play(hostId);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class GameTest {
         cards.add(new Card(new Position(1), CardType.LOOSING));
         cards.add(new Card(new Position(2), CardType.LOOSING));
         cards.add(new Card(new Position(3), CardType.WINNING));
-        game.play(hostId, cards);
+        game.play(hostId a);
         game.acceptShuffle(hostId);
         game.check(gamerId, new Position(2), cards);
         Assert.assertTrue(game.hasResultsForAllPlayers());

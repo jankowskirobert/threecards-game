@@ -1,5 +1,6 @@
 package com.jvmless.threecardgame.domain.shuffle;
 
+import com.jvmless.threecardgame.domain.game.GameId;
 import com.jvmless.threecardgame.domain.shared.Position;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class CardsTest {
         //given
         List<Move> moves = getMoves();
         Set<Card> cardSet = getCards();
-        Cards cards = new Cards(cardSet);
+        Cards cards = new Cards(new GameId("Test_game"), cardSet);
         //when
         Set<Card> out = cards.shuffle(moves);
         //then
@@ -29,7 +30,7 @@ public class CardsTest {
         cardSet.add(new Card(new Position(1), CardType.LOOSING));
         cardSet.add(new Card(new Position(2), CardType.LOOSING));
         cardSet.add(new Card(new Position(3), CardType.LOOSING));
-        new Cards(cardSet);
+        new Cards(new GameId("Test_game"), cardSet);
     }
 
     private List<Move> getMoves() {
