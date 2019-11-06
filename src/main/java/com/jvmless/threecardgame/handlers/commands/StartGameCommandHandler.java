@@ -34,8 +34,6 @@ public class StartGameCommandHandler {
             HostId hostId = new HostId(command.getHostId());
             Game activeOldGame = gamesRepository.findActiveGamesByHostId(hostId);
             if (activeOldGame == null) {
-                GameMoves gameMoves = new GameMoves(new GameMovesId(UUID.randomUUID().toString()), gameId);
-                gameMovesRepository.save(gameMoves);
                 Game newGame = new Game(gameId, hostId, command.getRoomName());
                 newGame.start();
                 gamesRepository.save(newGame);

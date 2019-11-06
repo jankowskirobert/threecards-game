@@ -18,18 +18,15 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class CassandraGameMoves {
+
+
     @PrimaryKeyColumn(
-            name = "movesId",
+            name = "moveId",
             ordinal = 2,
             type = PrimaryKeyType.PARTITIONED,
             ordering = Ordering.DESCENDING)
+    private String moveId;
     private String movesId;
-
-    @PrimaryKeyColumn(
-            name = "gameId",
-            ordinal = 2,
-            type = PrimaryKeyType.CLUSTERED,
-            ordering = Ordering.DESCENDING)
     private String gameId;
     private int current;
     private int previous;

@@ -1,9 +1,8 @@
 package com.jvmless.threecardgame.domain.game;
 
-import com.jvmless.threecardgame.domain.shuffle.Card;
 import com.jvmless.threecardgame.domain.shared.Position;
+import com.jvmless.threecardgame.domain.shuffle.Card;
 import com.jvmless.threecardgame.domain.shuffle.CardType;
-import com.jvmless.threecardgame.domain.shuffle.Cards;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

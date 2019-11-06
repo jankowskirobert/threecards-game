@@ -2,6 +2,7 @@ package com.jvmless.threecardgame.handlers.commands;
 
 import com.jvmless.threecardgame.domain.game.*;
 import com.jvmless.threecardgame.domain.shuffle.GameMoves;
+import com.jvmless.threecardgame.domain.shuffle.GameMovesId;
 import com.jvmless.threecardgame.domain.shuffle.GameMovesRepository;
 import com.jvmless.threecardgame.domain.player.Player;
 import com.jvmless.threecardgame.domain.player.PlayerId;
@@ -9,6 +10,7 @@ import com.jvmless.threecardgame.domain.player.PlayerRepository;
 import com.jvmless.threecardgame.handlers.commands.dto.MakeMoveCommand;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class MakeMoveCommandHandler {
 
@@ -30,6 +32,8 @@ public class MakeMoveCommandHandler {
             Game game = gamesRepository.findActiveGamesByHostId(hostId);
             if (game != null && game.isOnShuffleStage()) {
                 GameMoves gameMoves = gameMovesRepository.findByGameId(game.getGameId());
+                if(gameMoves == null)
+                    gameMoves = new GameMoves(new GameMovesId(UUID.randomUUID().toString()), game.getGameId());
                 gameMoves.add(makeMoveCommand.getPrevious(), makeMoveCommand.getCurrent(), LocalDateTime.now());
                 gameMovesRepository.save(gameMoves);
             }

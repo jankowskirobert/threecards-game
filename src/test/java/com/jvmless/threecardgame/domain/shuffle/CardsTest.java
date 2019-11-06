@@ -36,7 +36,7 @@ public class CardsTest {
 
     private List<Move> getMoves() {
         List<Move> moves = new ArrayList<>();
-        moves.add(new Move(new Position(1), new Position(2), LocalDateTime.now()));
+        moves.add(new Move(new MoveId("Test"), new Position(1), new Position(2), LocalDateTime.now()));
         return moves;
     }
 

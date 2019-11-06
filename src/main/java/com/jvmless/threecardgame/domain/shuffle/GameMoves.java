@@ -49,7 +49,8 @@ public class GameMoves {
 
     public void add(int current, int destination, LocalDateTime localDateTime) {
         if (moves.size() < MAX_MOVES) {
-            Move move = new Move(new Position(current), new Position(destination), localDateTime);
+            String id = UUID.randomUUID().toString();
+            Move move = new Move(new MoveId(id), new Position(current), new Position(destination), localDateTime);
             this.moves.add(move);
         }
     }

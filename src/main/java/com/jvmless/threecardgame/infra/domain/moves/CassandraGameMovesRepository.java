@@ -5,9 +5,10 @@ import com.jvmless.threecardgame.domain.shuffle.GameMovesId;
 import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface CassandraGameMovesRepository extends CassandraRepository<CassandraGameMoves, String> {
-    Optional<CassandraGameMoves> findByMovesIdAndGameId(GameMovesId gameMovesId, GameId gameId);
+    List<CassandraGameMoves> findByGameId(GameId gameId);
 }

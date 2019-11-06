@@ -4,6 +4,8 @@ import com.jvmless.threecardgame.domain.game.GameId;
 import com.jvmless.threecardgame.domain.shuffle.GameMoves;
 import com.jvmless.threecardgame.domain.shuffle.GameMovesRepository;
 
+import java.util.List;
+
 public class CassandraGameMovesRepositoryAdapter implements GameMovesRepository {
 
     private final CassandraGameMovesRepository cassandraGameMovesRepository;
@@ -14,7 +16,7 @@ public class CassandraGameMovesRepositoryAdapter implements GameMovesRepository 
 
     @Override
     public GameMoves findByGameId(GameId gameId) {
-        CassandraGameMoves cassandraGameMoves = cassandraGameMovesRepository.findByMovesIdAndGameId(gameId).orElse(null);
+        List<CassandraGameMoves> cassandraGameMoves = cassandraGameMovesRepository.findByGameId(gameId);
         if (cassandraGameMoves != null)
             return MovesCassandraMapper.map(cassandraGameMoves);
         else
@@ -23,6 +25,6 @@ public class CassandraGameMovesRepositoryAdapter implements GameMovesRepository 
 
     @Override
     public void save(GameMoves gameMoves) {
-        cassandraGameMovesRepository.save(MovesCassandraMapper.map(gameMoves));
+        cassandraGameMovesRepository.saveAll(MovesCassandraMapper.map(gameMoves));
     }
 }
