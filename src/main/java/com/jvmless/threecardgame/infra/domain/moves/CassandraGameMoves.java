@@ -9,6 +9,7 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +31,7 @@ public class CassandraGameMoves {
             type = PrimaryKeyType.CLUSTERED,
             ordering = Ordering.DESCENDING)
     private String gameId;
-
-    @Column
-    private List<CassandraGameMove> moves = new ArrayList<>();
-
+    private int current;
+    private int previous;
+    private LocalDateTime moveTime;
 }

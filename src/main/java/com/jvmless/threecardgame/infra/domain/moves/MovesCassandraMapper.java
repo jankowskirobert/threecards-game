@@ -11,29 +11,30 @@ import java.util.stream.Collectors;
 
 public class MovesCassandraMapper {
 
-    public static CassandraGameMoves map(GameMoves gameMoves) {
-        CassandraGameMoves cassandraGameMoves = new CassandraGameMoves();
-        cassandraGameMoves.setGameId(gameMoves.getGameId().getId());
-        cassandraGameMoves.setMovesId(gameMoves.getGameMovesId().getId());
-        cassandraGameMoves.setMoves(
-                gameMoves.getMoves().stream()
-                        .map(move -> {
-                            CassandraGameMove cassandraGameMove = new CassandraGameMove();
-                            cassandraGameMove.setCurrent(move.getCurrent().getPlace());
-                            cassandraGameMove.setMoveTime(move.getMoveDate());
-                            cassandraGameMove.setPrevious(move.getPrevious().getPlace());
-                            return cassandraGameMove;
-                        }).collect(Collectors.toList())
-        );
-        return cassandraGameMoves;
+    public static List<CassandraGameMoves> map(GameMoves gameMoves) {
+        return gameMoves.getMoves().stream().map(
+                move -> {
+                    CassandraGameMoves cassandraGameMoves = new CassandraGameMoves();
+                    cassandraGameMoves.setMovesId(gameMoves.getGameMovesId().getId());
+                    cassandraGameMoves.setGameId(gameMoves.getGameId().getId());
+                    cassandraGameMoves.setCurrent(move.getCurrent().getPlace());
+                    cassandraGameMoves.setPrevious(move.getPrevious().getPlace());
+                    cassandraGameMoves.setMoveTime(move.getMoveDate());
+                    return cassandraGameMoves;
+                }
+        ).collect(Collectors.toList());
     }
 
-    public static GameMoves map(CassandraGameMoves cassandraGameMoves) {
-        List<Move> moves = cassandraGameMoves.getMoves()
-                .stream()
-                .map(move -> new Move(new Position(move.getPrevious()), new Position(move.getCurrent()), move.getMoveTime()))
-                .collect(Collectors.toList());
-        GameMoves gameMoves = new GameMoves(new GameMovesId(cassandraGameMoves.getMovesId()), new GameId(cassandraGameMoves.getGameId()), moves);
-        return gameMoves;
+    public static GameMoves map(List<CassandraGameMoves> cassandraGameMoves) {
+        if(!cassandraGameMoves.isEmpty()) {
+            List<Move> moves = cassandraGameMoves
+                    .stream()
+                    .map(move -> new Move(new Position(move.getPrevious()), new Position(move.getCurrent()), move.getMoveTime()))
+                    .collect(Collectors.toList());
+            GameMoves gameMoves = new GameMoves(new GameMovesId(cassandraGameMoves.get(0).getMovesId()), new GameId(cassandraGameMoves.get(0).getGameId()), moves);
+            return gameMoves;
+        } else {
+            return null;
+        }
     }
 }

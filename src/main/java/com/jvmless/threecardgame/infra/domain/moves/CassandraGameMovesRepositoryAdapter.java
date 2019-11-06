@@ -14,7 +14,7 @@ public class CassandraGameMovesRepositoryAdapter implements GameMovesRepository 
 
     @Override
     public GameMoves findByGameId(GameId gameId) {
-        CassandraGameMoves cassandraGameMoves = cassandraGameMovesRepository.findByGameId(gameId).orElse(null);
+        CassandraGameMoves cassandraGameMoves = cassandraGameMovesRepository.findByMovesIdAndGameId(gameId).orElse(null);
         if (cassandraGameMoves != null)
             return MovesCassandraMapper.map(cassandraGameMoves);
         else
