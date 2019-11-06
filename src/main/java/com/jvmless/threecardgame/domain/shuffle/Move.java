@@ -6,16 +6,16 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-class Move {
+public class Move {
     private Position previous;
     private Position current;
     private LocalDateTime moveDate;
 
-    protected Move(Position previous, Position current) {
+    public Move(Position previous, Position current, LocalDateTime localDateTime) {
         if(!previous.equals(current)) {
             this.previous = previous;
             this.current = current;
-            this.moveDate = LocalDateTime.now();
+            this.moveDate = localDateTime;
         } else {
             throw new IllegalArgumentException("Positions are the same!");
         }

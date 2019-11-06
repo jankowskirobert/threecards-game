@@ -1,4 +1,8 @@
-package com.jvmless.threecardgame.domain.shuffle;
+package com.jvmless.threecardgame.infra.domain.moves;
+
+import com.jvmless.threecardgame.domain.shuffle.Cards;
+import com.jvmless.threecardgame.domain.shuffle.CardsRepository;
+import com.jvmless.threecardgame.domain.shuffle.MongoCardsRepository;
 
 public class MongoCardsRespositoryAdapter implements CardsRepository {
 

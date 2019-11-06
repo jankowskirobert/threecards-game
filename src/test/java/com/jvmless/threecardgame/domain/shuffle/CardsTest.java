@@ -5,6 +5,7 @@ import com.jvmless.threecardgame.domain.shared.Position;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +36,7 @@ public class CardsTest {
 
     private List<Move> getMoves() {
         List<Move> moves = new ArrayList<>();
-        moves.add(new Move(new Position(1), new Position(2)));
+        moves.add(new Move(new Position(1), new Position(2), LocalDateTime.now()));
         return moves;
     }
 

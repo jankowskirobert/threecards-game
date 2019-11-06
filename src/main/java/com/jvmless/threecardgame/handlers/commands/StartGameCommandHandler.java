@@ -1,6 +1,7 @@
 package com.jvmless.threecardgame.handlers.commands;
 
 import com.jvmless.threecardgame.domain.shuffle.GameMoves;
+import com.jvmless.threecardgame.domain.shuffle.GameMovesId;
 import com.jvmless.threecardgame.domain.shuffle.GameMovesRepository;
 import com.jvmless.threecardgame.handlers.commands.dto.StartGameCommand;
 import com.jvmless.threecardgame.services.GameEventService;
@@ -8,6 +9,8 @@ import com.jvmless.threecardgame.domain.game.*;
 import com.jvmless.threecardgame.domain.player.Player;
 import com.jvmless.threecardgame.domain.player.PlayerId;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
+
+import java.util.UUID;
 
 public class StartGameCommandHandler {
 
@@ -31,7 +34,7 @@ public class StartGameCommandHandler {
             HostId hostId = new HostId(command.getHostId());
             Game activeOldGame = gamesRepository.findActiveGamesByHostId(hostId);
             if (activeOldGame == null) {
-                GameMoves gameMoves = new GameMoves(gameId);
+                GameMoves gameMoves = new GameMoves(new GameMovesId(UUID.randomUUID().toString()), gameId);
                 gameMovesRepository.save(gameMoves);
                 Game newGame = new Game(gameId, hostId, command.getRoomName());
                 newGame.start();

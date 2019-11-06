@@ -6,6 +6,7 @@ import com.jvmless.threecardgame.domain.game.MongoGameRepositoryAdapter;
 import com.jvmless.threecardgame.domain.shuffle.*;
 import com.jvmless.threecardgame.domain.player.InMemoryPlayerRepository;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
+import com.jvmless.threecardgame.infra.domain.moves.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,9 +19,14 @@ public class Repositories {
         return new MongoCardsRespositoryAdapter(mongoCardsRepository);
     }
 
+//    @Bean
+//    public GameMovesRepository gameMovesRepository(MongoGameMovesRepository mongoGameMovesRepository) {
+//        return new MongoGameMovesRepositoryAdapter(mongoGameMovesRepository);
+//    }
+
     @Bean
-    public GameMovesRepository gameMovesRepository(MongoGameMovesRepository mongoGameMovesRepository) {
-        return new MongoGameMovesRepositoryAdapter(mongoGameMovesRepository);
+    public GameMovesRepository gameMovesRepository(CassandraGameMovesRepository cassandraGameMovesRepository) {
+        return new CassandraGameMovesRepositoryAdapter(cassandraGameMovesRepository);
     }
 
     @Bean

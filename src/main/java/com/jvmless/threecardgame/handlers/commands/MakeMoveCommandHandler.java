@@ -8,6 +8,8 @@ import com.jvmless.threecardgame.domain.player.PlayerId;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
 import com.jvmless.threecardgame.handlers.commands.dto.MakeMoveCommand;
 
+import java.time.LocalDateTime;
+
 public class MakeMoveCommandHandler {
 
     private final GamesRepository gamesRepository;
@@ -28,7 +30,7 @@ public class MakeMoveCommandHandler {
             Game game = gamesRepository.findActiveGamesByHostId(hostId);
             if (game != null && game.isOnShuffleStage()) {
                 GameMoves gameMoves = gameMovesRepository.findByGameId(game.getGameId());
-                gameMoves.add(makeMoveCommand.getPrevious(), makeMoveCommand.getCurrent());
+                gameMoves.add(makeMoveCommand.getPrevious(), makeMoveCommand.getCurrent(), LocalDateTime.now());
                 gameMovesRepository.save(gameMoves);
             }
         }
