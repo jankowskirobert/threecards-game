@@ -12,7 +12,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table()
+@Table("moves")
 @AllArgsConstructor
 @Data
 @NoArgsConstructor

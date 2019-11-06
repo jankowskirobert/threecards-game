@@ -2,40 +2,84 @@ package com.jvmless.threecardgame;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
-import org.springframework.data.cassandra.config.CassandraClusterFactoryBean;
-import org.springframework.data.cassandra.config.SchemaAction;
+import org.springframework.data.cassandra.config.*;
 import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.CassandraTemplate;
+import org.springframework.data.cassandra.core.convert.CassandraConverter;
 import org.springframework.data.cassandra.core.convert.MappingCassandraConverter;
+import org.springframework.data.cassandra.core.cql.keyspace.CreateKeyspaceSpecification;
+import org.springframework.data.cassandra.core.cql.keyspace.DropKeyspaceSpecification;
+import org.springframework.data.cassandra.core.cql.keyspace.KeyspaceOption;
 import org.springframework.data.cassandra.core.mapping.BasicCassandraMappingContext;
 import org.springframework.data.cassandra.core.mapping.CassandraMappingContext;
+import org.springframework.data.cassandra.core.mapping.SimpleUserTypeResolver;
+import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
+@EnableCassandraRepositories(basePackages = {"com.jvmless.threecardgame.infra.domain.moves"})
 public class CassandraConfiguration extends AbstractCassandraConfiguration {
 
-    @Override
-    protected String getKeyspaceName() {
-        return "moves";
-    }
+    public static final String KEYSPACE = "moves";
 
     @Override
     public SchemaAction getSchemaAction() {
-        return SchemaAction.RECREATE_DROP_UNUSED;
+        return SchemaAction.CREATE_IF_NOT_EXISTS;
     }
 
-    @Bean
-    public CassandraClusterFactoryBean cluster() {
-        CassandraClusterFactoryBean cluster =
-                new CassandraClusterFactoryBean();
-        cluster.setContactPoints("127.0.0.1");
-        cluster.setPort(9042);
-        return cluster;
+
+    @Override
+    protected List<CreateKeyspaceSpecification> getKeyspaceCreations() {
+        CreateKeyspaceSpecification specification = CreateKeyspaceSpecification
+                .createKeyspace("moves").ifNotExists()
+                .with(KeyspaceOption.DURABLE_WRITES, true).withSimpleReplication();
+        return Arrays.asList(specification);
+    }
+    @Override
+    protected List<DropKeyspaceSpecification> getKeyspaceDrops() {
+        return Arrays.asList(DropKeyspaceSpecification.dropKeyspace(KEYSPACE));
     }
 
-    @Bean
-    public CassandraOperations operations() throws Exception {
+    @Override
+    protected String getKeyspaceName() {
+        return KEYSPACE;
+    }
 
-        return new CassandraTemplate(session().getObject(), new MappingCassandraConverter(new BasicCassandraMappingContext()));
+    @Override
+    public String[] getEntityBasePackages() {
+        return new String[]{"com.jvmless.threecardgame.infra.domain.moves"};
+    }
+
+    @Override
+    public String getContactPoints() {
+        return "localhost";
+    }
+    public CassandraMappingContext cassandraMapping() throws ClassNotFoundException {
+        return new BasicCassandraMappingContext();
+    }
+
+
+    @Bean
+    public CassandraConverter converter() throws Exception {
+        return new MappingCassandraConverter(cassandraMapping());
+    }
+
+
+    @Bean
+    public CassandraSessionFactoryBean session() {
+
+        CassandraSessionFactoryBean session = new CassandraSessionFactoryBean();
+        session.setCluster(cluster().getObject());
+        session.setKeyspaceName(getKeyspaceName());
+        try {
+            session.setConverter(converter());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        session.setSchemaAction(SchemaAction.CREATE_IF_NOT_EXISTS);
+
+        return session;
     }
 }

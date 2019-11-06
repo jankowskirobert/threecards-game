@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication
 @EnableMongoRepositories
-@EnableCassandraRepositories
 public class ThreecardGameApplication {
 
 	public static void main(String[] args) {
