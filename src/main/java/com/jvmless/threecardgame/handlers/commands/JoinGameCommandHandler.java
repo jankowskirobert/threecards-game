@@ -5,7 +5,9 @@ import com.jvmless.threecardgame.domain.player.Player;
 import com.jvmless.threecardgame.domain.player.PlayerId;
 import com.jvmless.threecardgame.domain.player.PlayerRepository;
 import com.jvmless.threecardgame.handlers.commands.dto.JoinGameCommand;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class JoinGameCommandHandler {
 
     private final GamesRepository gamesRepository;
@@ -26,6 +28,7 @@ public class JoinGameCommandHandler {
                 GameId gameId = new GameId(joinGameCommand.getGameId());
                 Game game = gamesRepository.findByGameId(gameId);
                 if (game != null) {
+                    log.debug("Player: {} joined game: {}", playerId, gameId);
                     game.joinMatch(gamerId);
                     gamesRepository.save(game);
                 }

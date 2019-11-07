@@ -12,5 +12,5 @@ import java.util.List;
 @Data
 public class PlayGameCommand {
     private String hostId;
-    private List<Card> cards;
+    private List<CardView> cards;
 }

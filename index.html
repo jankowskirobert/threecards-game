@@ -18,6 +18,11 @@
     <small id="roomNameHelp" class="form-text text-muted">Your game room name.</small>
     <button type="submit" class="btn btn-primary">Start</button>
 </form>
+<input type="text" name="joingame" id="joingame"/>
+<button id="join" name="join">JOIN</button>
+
+<button id="play" name="play">PLAY</button>
+
 
 <script type="text/javascript">
     let type = "WebGL"
@@ -56,6 +61,7 @@
         card.anchor.set(0.5);
 
         card.on('pointertap', () => {
+            console.log('Click');
             var random_boolean = Math.random() >= 0.5;
             if (random_boolean) {
                 card.texture = winCard;
@@ -89,8 +95,8 @@
         m.set(pos, next_card);
         m.set(newPos, prev_card);
         console.log('swaped: '+next_card.x + '  of: '+prev_card.x);
-        prev_card.updateTransform();
-        next_card.updateTransform();
+        prev_card._refresh;
+        next_card._refresh;
 
     }
 
@@ -155,13 +161,18 @@
 
     $(function () {
         var socket = io.connect('http://localhost:9092/');
+        var playerId = '';
+        socket.on('connect', function (client) {
+            console.log('sessionID ' + socket.id);
+            playerId = socket.id;
+        });
         $('form').submit(function (e) {
             e.preventDefault(); // prevents page reloading
 
-            console.log('UUUUUUU');
+            console.log('UUUUUUU: '+playerId);
             var myObject = {
                 gameId: uuidv4(),
-                hostId: socket.id,
+                hostId: playerId,
                 roomName: $("#roomName").val()
             };
             socket.emit('startGame', myObject
@@ -173,6 +184,52 @@
 
             return false;
         });
+        $( "#join" ).click( function( event ) {
+            event.preventDefault();
+            var g =$("#joingame").val();
+            console.log('VVV: ' + playerId);
+            var joinObject = {
+                playerId: playerId,
+                gameId: g
+            };
+            socket.emit('joinGame', joinObject
+            );
+        } );
+
+        $( "#play" ).click( function( event ) {
+            event.preventDefault();
+            console.log('VVV2: ' + playerId);
+
+            var playObject = {
+
+            hostId: playerId,
+                cards: [
+                    {
+                        position: 1,
+                        type: true
+                    },
+                    {
+                        position: 2,
+                        type: false
+                    },
+                    {
+                        position: 3,
+                        type: false
+                    }
+                ]
+            };
+
+            socket.emit('playGame', playObject
+            );
+            var moveObject = {
+                hostId: playerId,
+                current: 1,
+                previous: 2
+            };
+            socket.emit('makeMove', moveObject
+            );
+        } );
+
     });
 
 

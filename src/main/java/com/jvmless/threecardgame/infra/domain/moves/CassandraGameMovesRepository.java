@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface CassandraGameMovesRepository extends CassandraRepository<CassandraGameMoves, String> {
-    List<CassandraGameMoves> findByGameId(GameId gameId);
+    List<CassandraGameMoves> findByGameId(String gameId);
 }
