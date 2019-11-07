@@ -28,10 +28,14 @@ public class GameEngine {
                         game.end();
                         log.info("Game: {} ended and has been shut down!", game.getGameId());
                     }
-                    if(game.isInactive()) {
+                    if(game.isStartedAndInactive()) {
                         game.timeout();
                         log.info("Game: {} timeout has been shut down!", game.getGameId());
 
+                    }
+                    if(game.isOnShuffleStage() && game.hasMaxMoves() && game.isInactiveMinutes(2)){
+                        game.end();
+                        log.info("Game: {} timeout has been shut down!", game.getGameId());
                     }
                     gamesRepository.save(game);
                 }

@@ -22,6 +22,7 @@
 <button id="join" name="join">JOIN</button>
 
 <button id="play" name="play">PLAY</button>
+<button id="move" name="move">Move</button>
 
 
 <script type="text/javascript">
@@ -229,7 +230,19 @@
             socket.emit('makeMove', moveObject
             );
         } );
+        $( "#move" ).click( function( event ) {
+            event.preventDefault();
+            console.log('move: ' + playerId);
 
+
+            var moveObject = {
+                hostId: playerId,
+                current: 2,
+                previous: 1
+            };
+            socket.emit('makeMove', moveObject
+            );
+        } );
     });
 
 

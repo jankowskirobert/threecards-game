@@ -16,7 +16,7 @@ public class MongoGameRepositoryAdapter implements GamesRepository {
 
     @Override
     public Game findActiveGamesByHostId(HostId hostId) {
-        return mongoGameRepository.findAllByHostEquals(new Host(hostId))
+        return mongoGameRepository.findAllByHostIs(new Host(hostId))
                 .stream()
                 .filter(Game::isActive)
                 .findFirst()

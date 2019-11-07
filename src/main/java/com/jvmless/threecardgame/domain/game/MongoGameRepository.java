@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public interface MongoGameRepository extends MongoRepository<Game, GameId> {
-    List<Game> findAllByHostEquals(Host host);
+    List<Game> findAllByHostIs(Host host);
     Game findByGameId(GameId gameId);
     List<Game> findAllByPlayersContains(Gamer gamer);
 }

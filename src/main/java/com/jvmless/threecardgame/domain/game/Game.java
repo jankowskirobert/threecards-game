@@ -32,6 +32,7 @@ public class Game {
     private static final Integer MAX_PLAYERS = 3;
     private Set<Gamer> players = new HashSet<>();
     private Integer availableMoves = 10;
+    private final static Integer MAX_MOVES = 10;
 //    private Cards cards;
     private Results results = new Results();
 
@@ -128,7 +129,7 @@ public class Game {
 //    }
 
     public void timeout() {
-        if (isInactive()) {
+        if (isStartedAndInactive()) {
             this.results.draft(host.getHostId(), null);
             this.end = LocalDateTime.now();
             this.gameStatus = GameStatus.END;
@@ -166,8 +167,16 @@ public class Game {
         return this.gameStatus.equals(GameStatus.PENDING);
     }
 
-    public boolean isInactive() {
+    public boolean isStartedAndInactive() {
         return isStarted() && LocalDateTime.now().minusMinutes(2).isAfter(created);
+    }
+
+    public boolean isInactiveMinutes(long minutes) {
+        return LocalDateTime.now().minusMinutes(minutes).isAfter(created);
+    }
+
+    public boolean hasMaxMoves() {
+        return MAX_MOVES == availableMoves;
     }
 
     public boolean isActive() {
