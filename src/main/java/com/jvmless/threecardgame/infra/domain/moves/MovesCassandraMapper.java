@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class MovesCassandraMapper {
 
     public static List<CassandraGameMoves> map(GameMoves gameMoves) {
-        return gameMoves.getMoves().stream().map(
+        List<CassandraGameMoves> collect = gameMoves.getMoves().stream().map(
                 move -> {
                     CassandraGameMoves cassandraGameMoves = new CassandraGameMoves();
                     cassandraGameMoves.setMoveId(move.getMoveId().getId());
@@ -25,6 +25,7 @@ public class MovesCassandraMapper {
                     return cassandraGameMoves;
                 }
         ).collect(Collectors.toList());
+        return collect;
     }
 
     public static GameMoves map(List<CassandraGameMoves> cassandraGameMoves) {

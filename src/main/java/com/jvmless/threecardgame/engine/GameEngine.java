@@ -33,7 +33,7 @@ public class GameEngine {
                         log.info("Game: {} timeout has been shut down!", game.getGameId());
 
                     }
-                    if(game.isOnShuffleStage() && game.hasMaxMoves() && game.isInactiveMinutes(2)){
+                    if(game.isOnShuffleStage() && game.hasMaxMoves() && game.isInactiveMinutes(20)){
                         game.end();
                         log.info("Game: {} timeout has been shut down!", game.getGameId());
                     }

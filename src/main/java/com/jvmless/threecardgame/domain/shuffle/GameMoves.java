@@ -36,7 +36,7 @@ public class GameMoves {
         this.gameMovesId = gameMovesId;
         this.gameId = gameId;
         Collections.unmodifiableList(moves).stream().forEach(move -> {
-            add(move.getCurrent().getPlace(), move.getPrevious().getPlace(), move.getMoveDate());
+            add(move.getMoveId(), move.getCurrent().getPlace(), move.getPrevious().getPlace(), move.getMoveDate());
         });
         this.moves.sort(moveComparable);
     }
@@ -52,6 +52,16 @@ public class GameMoves {
             String id = UUID.randomUUID().toString();
             Move move = new Move(new MoveId(id), new Position(current), new Position(destination), localDateTime);
             this.moves.add(move);
+        } else {
+            throw new IllegalArgumentException("Cannot add more moves, reach MAX of: " + MAX_MOVES);
+        }
+    }
+    private void add(MoveId moveId, int current, int destination, LocalDateTime localDateTime) {
+        if (moves.size() < MAX_MOVES) {
+            Move move = new Move(moveId, new Position(current), new Position(destination), localDateTime);
+            this.moves.add(move);
+        } else {
+            throw new IllegalArgumentException("Cannot add more moves, reach MAX of: " + MAX_MOVES);
         }
     }
 
