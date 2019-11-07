@@ -80,12 +80,7 @@
             .on('pointermove', onDragMove);
         m.set(card_pos[i], card);
     }
-    app.ticker.add((delta) => {
-        // just for fun, let's rotate mr rabbit a little
-        // delta is 1 if running at 100% performance
-        // creates frame-independent transformation
 
-    });
     function updateCard(pos, newPos) {
         const prev_card = m.get(pos);
         const next_card = m.get(newPos);
@@ -94,6 +89,8 @@
         m.set(pos, next_card);
         m.set(newPos, prev_card);
         console.log('swaped: '+next_card.x + '  of: '+prev_card.x);
+        prev_card.updateTransform();
+        next_card.updateTransform();
 
     }
 
