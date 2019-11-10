@@ -179,11 +179,16 @@
             socket.emit('startGame', myObject
             );
 
-            socket.on('activeGames', function (data) {
-                output('<span>' + data.allPlayersInGame + ':</span> ');
-            });
+
 
             return false;
+        });
+        socket.on('activeGames', function (data) {
+            output('<span>Players: ' + data.allPlayersInGame + '</span></br>');
+        });
+        socket.on('endGame', function (data) {
+            console.log('KONIEC');
+            output('KOINEC!<span>' + data + ':</span> ');
         });
         $( "#join" ).click( function( event ) {
             event.preventDefault();

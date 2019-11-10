@@ -2,6 +2,7 @@ package com.jvmless.threecardgame.infra.domain.moves;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.cassandra.core.cql.Ordering;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
@@ -17,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 public class CassandraGameMoves {
 
 
