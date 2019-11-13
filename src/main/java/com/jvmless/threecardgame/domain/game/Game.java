@@ -33,7 +33,6 @@ public class Game {
     private Set<Gamer> players = new HashSet<>();
     private Integer availableMoves = 10;
     private final static Integer MAX_MOVES = 10;
-//    private Cards cards;
     private Results results = new Results();
 
     public Game(GameId gameId, HostId host, String roomName) {
@@ -123,10 +122,6 @@ public class Game {
     public boolean isOnGuestingStage() {
         return this.gameStatus.equals(GameStatus.PLAYER_GUESTING);
     }
-
-//    private Set<Card> shuffleCard(Cards cards, GameMoves moves) {
-//        return this.cards.shuffle(moves.all());
-//    }
 
     public void timeout() {
         if (isStartedAndInactive()) {
