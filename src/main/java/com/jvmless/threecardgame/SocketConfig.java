@@ -5,6 +5,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.jvmless.threecardgame.domain.game.GamesRepository;
 import com.jvmless.threecardgame.handlers.queries.AvailableGameQueryHandler;
 import com.jvmless.threecardgame.services.GameEventService;
+import com.jvmless.threecardgame.services.SocketIOGameEventService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,7 @@ public class SocketConfig {
 
     @Bean
     public GameEventService gameEventService(SocketIOServer socketIOServer, AvailableGameQueryHandler availableGameQueryHandler, GamesRepository gamesRepository) {
-        return new GameEventService(socketIOServer, availableGameQueryHandler, gamesRepository);
+        return new SocketIOGameEventService(socketIOServer, availableGameQueryHandler, gamesRepository);
     }
 
 

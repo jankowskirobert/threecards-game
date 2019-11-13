@@ -1,9 +1,9 @@
 package com.jvmless.threecardgame;
 
-import com.corundumstudio.socketio.SocketIOServer;
 import com.jvmless.threecardgame.domain.game.GamesRepository;
 import com.jvmless.threecardgame.engine.GameEngine;
 import com.jvmless.threecardgame.services.GameEventService;
+import com.jvmless.threecardgame.services.SocketIOGameEventService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

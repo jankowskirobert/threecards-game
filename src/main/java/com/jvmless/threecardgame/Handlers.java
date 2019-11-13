@@ -17,8 +17,8 @@ import org.springframework.context.annotation.Configuration;
 public class Handlers {
 
     @Bean
-    public StartGameCommandHandler startGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository, GameEventService gameEventService, GameMovesRepository gameMovesRepository) {
-        return new StartGameCommandHandler(playerRepository, gamesRepository, gameEventService, gameMovesRepository);
+    public StartGameCommandHandler startGameCommandHandler(GamesRepository gamesRepository, PlayerRepository playerRepository, GameEventService gameEventService) {
+        return new StartGameCommandHandler(playerRepository, gamesRepository, gameEventService);
     }
 
     @Bean

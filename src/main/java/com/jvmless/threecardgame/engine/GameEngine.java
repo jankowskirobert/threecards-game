@@ -12,12 +12,12 @@ import java.util.List;
 public class GameEngine {
 
     private final GamesRepository gamesRepository;
-    private final GameEventService gameEventService;
+    private final GameEventService GameEventService;
 
 
     public GameEngine(GamesRepository gamesRepository, GameEventService gameEventService) {
         this.gamesRepository = gamesRepository;
-        this.gameEventService = gameEventService;
+        this.GameEventService = gameEventService;
     }
 
     @Scheduled(fixedDelay = 42)
@@ -28,18 +28,18 @@ public class GameEngine {
                     if(game.hasResultsForAllPlayers() && game.isOnGuestingStage() ) {
                         game.end();
                         log.info("Game: {} ended and has been shut down!", game.getGameId());
-                        gameEventService.gameEnd(game.getGameId());
+                        GameEventService.gameEnd(game.getGameId());
                     }
                     if(game.isStartedAndInactive()) {
                         game.timeout();
                         log.info("Game: {} timeout has been shut down!", game.getGameId());
-                        gameEventService.gameEnd(game.getGameId());
+                        GameEventService.gameEnd(game.getGameId());
 
                     }
                     if(game.isOnShuffleStage() && game.hasMaxMoves() && game.isInactiveMinutes(20)){
                         game.end();
                         log.info("Game: {} timeout has been shut down!", game.getGameId());
-                        gameEventService.gameEnd(game.getGameId());
+                        GameEventService.gameEnd(game.getGameId());
                     }
                     gamesRepository.save(game);
                 }
